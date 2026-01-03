@@ -5,7 +5,7 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local lastHit = 0
 
-local MAX_Range = 16
+local MAX_RANGE = 16
 
  -- Functions --
 local function getClosestPlayer()
