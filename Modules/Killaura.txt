@@ -1,1 +1,47 @@
--- Coming soon..
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local function getClosestPlayer()
+    local closest = nil
+    local shortest = math.huge
+    local myChar = player.Character
+    local myHrp = myChar and myChar:FindFirstChild("HumanoidRootPart")
+    
+    if not myHrp then return nil end
+
+    for _, p in ipairs(Players:GetPlayers()) do
+        if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+            local dist = (myHrp.Position - p.Character.HumanoidRootPart.Position).Magnitude
+            if dist < shortest then
+                shortest = dist
+                closest = p
+            end
+        end
+    end
+    return closest
+end
+
+if not getgenv().kaHooked then
+    getgenv().kaHooked = true
+    local oldNamecall
+    oldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
+        local method = getnamecallmethod()
+        local args = {...}
+
+        if not checkcaller() and _G.kaConn and (method == "InvokeServer" or method == "invokeServer") and self.Name == "SendState" then
+            local data = args[1]
+            if type(data) == "table" then
+                local closest = getClosestPlayer()
+                if closest then
+                    data.targetEntity = closest.Name
+                    data.iattack = true
+                elseif not data.targetEntity then
+                    data.targetEntity = ""
+                end
+                return self.InvokeServer(self, data)
+            end
+        end
+
+        return oldNamecall(self, ...)
+    end)
+end
