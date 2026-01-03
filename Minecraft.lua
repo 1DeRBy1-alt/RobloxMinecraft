@@ -87,7 +87,7 @@ local kaToggle = Tabs.cs:AddToggle("kaToggle", {
     Callback = function(t)
         _G.kaConn = t
         if _G.kaConn then
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/Killaura.txt"))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Killaura.lua"))()
         end
     end
 })
