@@ -47,6 +47,25 @@ local Tabs = {
 
 local Options = Fluent.Options
 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Pixeluted/adoniscries/refs/heads/main/Source.lua",true))()
+  wait()
+  -- Anti Kick --
+  
+  local oldhmmi
+  local oldhmmnc
+  oldhmmi = hookmetamethod(game, "__index", function(self, method)
+    if self == player and method:lower() == "kick" then
+      return error("Expected ':' not '.' calling member function Kick", 2)
+    end
+    return oldhmmi(self, method)
+  end)
+  oldhmmnc = hookmetamethod(game, "__namecall", function(self, ...)
+    if self == player and getnamecallmethod():lower() == "kick" then
+      return
+    end
+    return oldhmmnc(self, ...)
+  end)
+
 -- Functions --
 local function WorldToBlock(x, y, z)
 	return math.floor(x / 3 + 0.5),
