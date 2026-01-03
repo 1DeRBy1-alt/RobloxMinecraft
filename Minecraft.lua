@@ -1,7 +1,7 @@
 local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))()
 if getgenv().Loaded then 
     AkaliNotif.Notify({
-        Title = "Byte Hub",
+        Title = "Spectra Hub",
         Description = "Script is already loaded!",
         Duration = 5
     })
