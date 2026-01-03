@@ -1,5 +1,6 @@
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
+local lastHit = 0
 
 local function getClosestPlayer()
     local closest = nil
@@ -31,13 +32,22 @@ if not getgenv().kaHooked then
         if not checkcaller() and _G.kaConn and (method == "InvokeServer" or method == "invokeServer") and self.Name == "SendState" then
             local data = args[1]
             if type(data) == "table" then
-                local closest = getClosestPlayer()
-                if closest then
-                    data.targetEntity = closest.Name
-                    data.iattack = true
-                elseif not data.targetEntity then
-                    data.targetEntity = ""
+                local currentTime = tick()
+                local delayTime = _G.kaDelay or 0
+                
+                if (currentTime - lastHit) >= delayTime then
+                    local closest = getClosestPlayer()
+                    if closest then
+                        data.targetEntity = closest.Name
+                        data.iattack = true
+                        lastHit = currentTime
+                    elseif not data.targetEntity then
+                        data.targetEntity = ""
+                    end
+                else
+                    data.iattack = false
                 end
+                
                 return self.InvokeServer(self, data)
             end
         end
