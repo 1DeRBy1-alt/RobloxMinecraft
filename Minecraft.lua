@@ -1,5 +1,18 @@
-if not getgenv().Loaded then
-  getgenv().Loaded = true
+local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))()
+if getgenv().Loaded then 
+    AkaliNotif.Notify({
+        Title = "Byte Hub",
+        Description = "Script is already loaded!",
+        Duration = 5
+    })
+    return 
+end
+
+getgenv().Loaded = true
+_G.kaDelay = 0
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
 -- Services --
 local Players = game:GetService("Players")
@@ -16,6 +29,24 @@ local env = getsenv(ClientScript)
 
 local kaConn
 
+local Window = Fluent:CreateWindow({
+    Title = "Minecraft (Spectra Hub) v1.0",
+    SubTitle = "by 1DeRBy1",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(560, 300),
+    Acrylic = false,
+    Theme = "Darker",
+    MinimizeKey = Enum.KeyCode.LeftShift
+})
+
+local Tabs = {
+    Credits = Window:AddTab({ Title = "Credits", Icon = "info" }),
+    cs = Window:AddTab({ Title = "Combat", Icon = "swords" }),
+    st = Window:AddTab({ Title = "Settings", Icon = "settings" }),
+}
+
+local Options = Fluent.Options
+
 -- Functions --
 local function WorldToBlock(x, y, z)
 	return math.floor(x / 3 + 0.5),
@@ -23,22 +54,70 @@ local function WorldToBlock(x, y, z)
 		   math.floor(z / 3 + 0.5)
 end
 
-local function getClosestPlayer()
-    local closest = nil
-    local shortest = math.huge
-
-    for _, plr in ipairs(Players:GetPlayers()) do
-        if plr ~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
-            local dist = (hrp.Position - plr.Character.HumanoidRootPart.Position).Magnitude
-            if dist < shortest then
-                shortest = dist
-                closest = plr
-            end
-        end
-    end
-    return closest
-end
-
 local bx, by, bz = WorldToBlock(pos.X, pos.Y, pos.Z)
 
-end
+Tabs.Credits:AddParagraph({
+    Title = "Credits",
+    Content = "Made by 1DeRBy1\nCredits to PurpleApple for some functions\nUI Library: Fluent"
+})
+
+local kaToggle = Tabs.cs:AddToggle("kaToggle", {
+    Title = "Kill Aura",
+    Description = "Automatically attacks nearby players",
+    Default = false,
+    Callback = function(t)
+        _G.kaConn = t
+        if _G.kaConn then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/Killaura.txt"))()
+        end
+    end
+})
+
+local kadelay = Tabs.st:AddInput("kadelay", {
+    Title = "Kill Aura Delay",
+    Description = "Seconds between each hit (Default: 0)",
+    Default = "0",
+    Placeholder = "Enter a number",
+    Numeric = true,
+    Finished = false,
+    Callback = function(kad)
+      local newDelay = tonumber(kad)
+      if newDelay then
+        _G.kaDelay = newDelay
+        Fluent:Notify({
+          Title = "Success!",
+          Content = "Successfully edited delay",
+          SubContent = "Delay: " .. newDelay,
+          Duration = 3
+        })
+      else
+        Fluent:Notify({
+          Title = "Error",
+          Content = "Invalid Delay:" .. kad,
+          SubContent = "Please enter a number",
+          Duration = 3
+        })
+      end
+    end
+})
+
+Tabs.st:AddDropdown("InterfaceTheme", {
+    Title = "Theme",
+    Description = "Changes the interface theme.",
+    Values = Fluent.Themes,
+    Default = Fluent.Theme,
+    Callback = function(Value)
+        Fluent:SetTheme(Value)
+    end
+})
+
+Tabs.st:AddToggle("TransparentToggle", {
+    Title = "Transparency",
+    Description = "Makes the interface transparent.",
+    Default = Fluent.Transparency,
+    Callback = function(Value)
+        Fluent:ToggleTransparency(Value)
+    end
+})
+
+Window:SelectTab(1)
