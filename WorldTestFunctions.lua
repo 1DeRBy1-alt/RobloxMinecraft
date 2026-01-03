@@ -12,13 +12,19 @@ local IDInfo = require(game:GetService("ReplicatedStorage"):WaitForChild("IDInfo
 -- Functions --
 function getBlock(x, y, z)
     if env.getBlock then
-        return env.getBlock(x, y, z)
+     if env.getBlock(x, y, z) ~= nil then
+         return env.getBlock(x, y, z)
+       end
     end
 end
 
 function getBlockID(x, y, z)
-    local block = env.getBlock and env.getBlock(x, y, z)
+ if env.getBlock then
+  if env.getBlock(x, y, z) ~= nil then
+    local block = env.getBlock(x, y, z)
     return block and block.id
+    end
+  end
 end
 
 function convertBlockIdToBlockName(blockId)
