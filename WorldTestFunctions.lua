@@ -1,4 +1,6 @@
+ -- Services --
 local Players = game:GetService("Players")
+ -- Variables --
 local player = Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
 local hrp = char:FindFirstChild("HumanoidRootPart")
@@ -7,7 +9,7 @@ local pos = hrp.Position
 local ClientScript = player.PlayerScripts:WaitForChild("ClientScript")
 local env = getsenv(ClientScript)
 local IDInfo = require(game:GetService("ReplicatedStorage"):WaitForChild("IDInfo"))
-
+-- Functions --
 function getBlock(x, y, z)
     if env.getBlock then
         return env.getBlock(x, y, z)
@@ -38,3 +40,9 @@ local blockName = convertBlockIdToBlockName(blockId)
 
 -- print(blockName)
 -- print(bx, by, bz)
+
+return {
+    getBlock = getBlock,
+    convertBlockIdToBlockName = convertBlockIdToBlockName,
+    WorldToBlock = WorldToBlock
+}
