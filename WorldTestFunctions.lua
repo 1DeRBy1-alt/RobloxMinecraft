@@ -16,6 +16,11 @@ function getBlock(x, y, z)
     end
 end
 
+function getBlockID(x, y, z)
+    local block = env.getBlock and env.getBlock(x, y, z)
+    return block and block.id
+end
+
 function convertBlockIdToBlockName(blockId)
     if blockId and IDInfo[blockId] then
         if IDInfo[blockId].block == true and not IDInfo[blockId].tool then
@@ -33,8 +38,7 @@ function WorldToBlock(x, y, z)
 end
 
 local bx, by, bz = WorldToBlock(pos.X, pos.Y, pos.Z)
-local block = getBlock(bx, by-1, bz)
-local blockId = block and block.id
+local blockId = getBlockID(bx, by-1, bz)
 
 local blockName = convertBlockIdToBlockName(blockId)
 
@@ -43,6 +47,7 @@ local blockName = convertBlockIdToBlockName(blockId)
 
 return {
     getBlock = getBlock,
+    getBlockID = getBlockID,
     convertBlockIdToBlockName = convertBlockIdToBlockName,
     WorldToBlock = WorldToBlock
 }
