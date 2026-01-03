@@ -1,24 +1,35 @@
+  -- Services --
 local Players = game:GetService("Players")
+
+  -- Variables --
 local player = Players.LocalPlayer
 local lastHit = 0
 
+local MAX_Range = 16
+
+ -- Functions --
 local function getClosestPlayer()
     local closest = nil
-    local shortest = math.huge
+    local shortest = MAX_RANGE
     local myChar = player.Character
     local myHrp = myChar and myChar:FindFirstChild("HumanoidRootPart")
-    
+
     if not myHrp then return nil end
 
     for _, p in ipairs(Players:GetPlayers()) do
-        if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
-            local dist = (myHrp.Position - p.Character.HumanoidRootPart.Position).Magnitude
-            if dist < shortest then
-                shortest = dist
-                closest = p
+        if p ~= player and p.Character then
+            local hrp = p.Character:FindFirstChild("HumanoidRootPart")
+            local hum = p.Character:FindFirstChildOfClass("Humanoid")
+            if hrp and hum --[[and hum.Health > 0]] then -- F*** you lunatic and the other devs for making health work differently
+                local dist = (myHrp.Position - hrp.Position).Magnitude
+                if dist <= MAX_RANGE and dist < shortest then
+                    shortest = dist
+                    closest = p
+                end
             end
         end
     end
+
     return closest
 end
 
