@@ -101,7 +101,7 @@ local xrayToggle = Tabs.vs:AddToggle("xrayToggle", {
     Callback = function(t)
         _G.xrayConn = t
         if _G.xrayConn then
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Xray.lua"))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/XRay.lua"))()
         end
     end
 })
