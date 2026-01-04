@@ -10,6 +10,7 @@ end
 
 getgenv().Loaded = true
 _G.kaDelay = 0
+_G.xrayConn = false
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -42,6 +43,7 @@ local Window = Fluent:CreateWindow({
 local Tabs = {
     Credits = Window:AddTab({ Title = "Credits", Icon = "info" }),
     cs = Window:AddTab({ Title = "Combat", Icon = "swords" }),
+	vs = Window:AddTab({ Title = "Visuals", Icon = "eye" }),
     st = Window:AddTab({ Title = "Settings", Icon = "settings" }),
 }
 
@@ -88,6 +90,18 @@ local kaToggle = Tabs.cs:AddToggle("kaToggle", {
         _G.kaConn = t
         if _G.kaConn then
             loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Killaura.lua"))()
+        end
+    end
+})
+
+local xrayToggle = Tabs.vs:AddToggle("xrayToggle", {
+    Title = "X-Ray",
+    Description = "ESP for ores",
+    Default = false,
+    Callback = function(t)
+        _G.xrayConn = t
+        if _G.xrayConn then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Xray.lua"))()
         end
     end
 })
