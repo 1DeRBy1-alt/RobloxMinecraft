@@ -1,17 +1,17 @@
- -- Services --
+-- Services --
 local Players = game:GetService("Players")
 
- -- Variables --
+-- Variables --
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
 local xrayfolder = workspace:FindFirstChild("XrayFolder") or Instance.new("Folder", workspace)
 xrayfolder.Name = "XrayFolder"
 
- -- World Functions --
+-- World Functions --
 local WorldFunctions = loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/WorldTestFunctions.lua"))()
 
- -- Functions --
+-- Functions --
 local function makeVisual(color, part)
     if part:FindFirstChild("bulb") then return end
     local a = Instance.new("BillboardGui")
@@ -38,8 +38,8 @@ local ores = {
     coal = Color3.fromRGB(56, 59, 56),
 }
 
-local visuals = {} 
-local chunksScanned = {} 
+local visuals = {}
+local chunksScanned = {}
 
 local function scanLayer(chunk, yLevel)
     local coords = string.split(chunk.Name, "x")
@@ -142,7 +142,28 @@ task.spawn(function()
             
             local currentID = WorldFunctions.getBlockID(bx, by, bz)
             
-            if not currentID then
+            if currentID then
+                local name = WorldFunctions.convertBlockIdToBlockName(currentID)
+                if name then
+                    local lowerName = string.lower(name)
+                    local isOre = false
+                    
+                    for oreName in pairs(ores) do
+                        if string.find(lowerName, oreName) then
+                            isOre = true
+                            break
+                        end
+                    end
+                    
+                    if not isOre and not string.find(lowerName, "ore") then
+                        if data.Part then data.Part:Destroy() end
+                        visuals[key] = nil
+                    end
+                else
+                    if data.Part then data.Part:Destroy() end
+                    visuals[key] = nil
+                end
+            else
                 if data.Part then data.Part:Destroy() end
                 visuals[key] = nil
             end
