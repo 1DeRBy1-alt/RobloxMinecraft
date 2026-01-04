@@ -28,7 +28,7 @@ function getBlockID(x, y, z)
 end
 
 function convertBlockIdToBlockName(blockId)
-    if blockId and IDInfo[blockId] then
+    if blockId and blockId ~= nil and IDInfo[blockId] then
         if IDInfo[blockId].block == true and not IDInfo[blockId].tool then
             return IDInfo[blockId].name
         else
