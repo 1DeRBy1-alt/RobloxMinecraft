@@ -1,7 +1,7 @@
  -- Services --
 local Players = game:GetService("Players")
  -- Variables --
--- local player = Players.LocalPlayer
+local player = Players.LocalPlayer
 -- local char = player.Character or player.CharacterAdded:Wait()
 -- local hrp = char:FindFirstChild("HumanoidRootPart")
 -- local pos = hrp.Position
