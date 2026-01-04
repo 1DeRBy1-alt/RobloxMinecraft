@@ -1,3 +1,9 @@
+if getgenv().xrayLoaded == true then
+    return
+end
+
+getgenv().xrayLoaded = true
+
 -- Services --
 local Players = game:GetService("Players")
 
@@ -40,6 +46,7 @@ local ores = {
 
 local visuals = {}
 local chunksScanned = {}
+local scanning = {}
 
 local function scanLayer(chunk, yLevel)
     local coords = string.split(chunk.Name, "x")
@@ -87,8 +94,8 @@ local function scanLayer(chunk, yLevel)
 end
 
 local function scanFullChunk(chunk)
-    if chunksScanned[chunk.Name] then return end
-    chunksScanned[chunk.Name] = true
+    if chunksScanned[chunk.Name] or scanning[chunk.Name] then return end
+    scanning[chunk.Name] = true
     
     for y = 1, 63 do
         scanLayer(chunk, y)
@@ -99,12 +106,16 @@ local function scanFullChunk(chunk)
         
         if not _G.xrayConn then break end
     end
+    
+    chunksScanned[chunk.Name] = true
+    scanning[chunk.Name] = nil
 end
 
 local ChunksFolder = workspace:WaitForChild("Chunks")
 
 ChunksFolder.ChildRemoved:Connect(function(chunk)
     chunksScanned[chunk.Name] = nil
+    scanning[chunk.Name] = nil
     for key, data in pairs(visuals) do
         if data.Chunk == chunk.Name then
             if data.Part then data.Part:Destroy() end
@@ -117,7 +128,7 @@ task.spawn(function()
     while task.wait(0.69) do
         if _G.xrayConn then
             for _, chunk in ipairs(ChunksFolder:GetChildren()) do
-                if not chunksScanned[chunk.Name] then
+                if not chunksScanned[chunk.Name] and not scanning[chunk.Name] then
                     task.spawn(scanFullChunk, chunk)
                 end
             end
@@ -126,36 +137,55 @@ task.spawn(function()
 end)
 
 task.spawn(function()
+    local char = player.Character
+    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+    local lastCleanup = 0
+    
     while task.wait(0.2) do
         if not _G.xrayConn then
             if next(visuals) ~= nil then
                 xrayfolder:ClearAllChildren()
                 table.clear(visuals)
                 table.clear(chunksScanned)
+                table.clear(scanning)
             end
             continue
         end
 
-        for key, data in pairs(visuals) do
-            local c = string.split(key, ",")
-            local bx, by, bz = tonumber(c[1]), tonumber(c[2]), tonumber(c[3])
+        char = player.Character
+        hrp = char and char:FindFirstChild("HumanoidRootPart")
+        local currentTime = tick()
+        
+        if hrp and currentTime - lastCleanup > 0.5 then
+            local px, py, pz = hrp.Position.X / 3, hrp.Position.Y / 3, hrp.Position.Z / 3
             
-            local currentID = WorldFunctions.getBlockID(bx, by, bz)
-            
-            if currentID then
-                local name = WorldFunctions.convertBlockIdToBlockName(currentID)
-                if name then
-                    local lowerName = string.lower(name)
-                    local isOre = false
-                    
-                    for oreName in pairs(ores) do
-                        if string.find(lowerName, oreName) then
-                            isOre = true
-                            break
+            for key, data in pairs(visuals) do
+                local c = string.split(key, ",")
+                local bx, by, bz = tonumber(c[1]), tonumber(c[2]), tonumber(c[3])
+                
+                local dist = math.abs(bx - px) + math.abs(by - py) + math.abs(bz - pz)
+                if dist > 50 then continue end
+                
+                local currentID = WorldFunctions.getBlockID(bx, by, bz)
+                
+                if currentID then
+                    local name = WorldFunctions.convertBlockIdToBlockName(currentID)
+                    if name then
+                        local lowerName = string.lower(name)
+                        local isOre = false
+                        
+                        for oreName in pairs(ores) do
+                            if string.find(lowerName, oreName) then
+                                isOre = true
+                                break
+                            end
                         end
-                    end
-                    
-                    if not isOre and not string.find(lowerName, "ore") then
+                        
+                        if not isOre and not string.find(lowerName, "ore") then
+                            if data.Part then data.Part:Destroy() end
+                            visuals[key] = nil
+                        end
+                    else
                         if data.Part then data.Part:Destroy() end
                         visuals[key] = nil
                     end
@@ -163,10 +193,9 @@ task.spawn(function()
                     if data.Part then data.Part:Destroy() end
                     visuals[key] = nil
                 end
-            else
-                if data.Part then data.Part:Destroy() end
-                visuals[key] = nil
             end
+            
+            lastCleanup = currentTime
         end
     end
 end)
