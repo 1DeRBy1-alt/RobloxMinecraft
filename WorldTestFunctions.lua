@@ -1,10 +1,10 @@
  -- Services --
 local Players = game:GetService("Players")
  -- Variables --
-local player = Players.LocalPlayer
-local char = player.Character or player.CharacterAdded:Wait()
-local hrp = char:FindFirstChild("HumanoidRootPart")
-local pos = hrp.Position
+-- local player = Players.LocalPlayer
+-- local char = player.Character or player.CharacterAdded:Wait()
+-- local hrp = char:FindFirstChild("HumanoidRootPart")
+-- local pos = hrp.Position
 
 local ClientScript = player.PlayerScripts:WaitForChild("ClientScript")
 local env = getsenv(ClientScript)
@@ -19,35 +19,46 @@ function getBlock(x, y, z)
 end
 
 function getBlockID(x, y, z)
- if env.getBlock then
-  if env.getBlock(x, y, z) ~= nil then
-    local block = env.getBlock(x, y, z)
-    return block and block.id
+    if env.getBlock then
+        local block = env.getBlock(x, y, z)
+        if block ~= nil then
+            if type(block) == "table" then
+                return block.id
+            elseif type(block) == "number" then
+                return block
+            end
+        end
     end
-  end
+    return nil
 end
 
 function convertBlockIdToBlockName(blockId)
-    if blockId and blockId ~= nil and IDInfo[blockId] then
-        if IDInfo[blockId].block == true and not IDInfo[blockId].tool then
-            return IDInfo[blockId].name
-        else
-            warn("Not a valid block")
+    if not blockId or type(blockId) ~= "number" then 
+        return nil 
+    end
+    
+    local info = IDInfo[blockId]
+    if info then
+        if info.block == true and not info.tool then
+            return info.name
         end
     end
+    return nil
 end
 
 function WorldToBlock(x, y, z)
-    return math.floor(x/3 + 0.5),
-           math.floor(y/3),
-           math.floor(z/3 + 0.5)
+    if type(x) ~= "number" or type(y) ~= "number" or type(z) ~= "number" then
+        return nil
+    end
+     return
+         math.floor(x / 3 + 0.5),
+         math.floor(y / 3),
+         math.floor(z / 3 + 0.5)
 end
 
-local bx, by, bz = WorldToBlock(pos.X, pos.Y, pos.Z)
-local blockId = getBlockID(bx, by-1, bz)
-
-local blockName = convertBlockIdToBlockName(blockId)
-
+-- local bx, by, bz = WorldToBlock(pos.X, pos.Y, pos.Z)
+-- local blockId = getBlockID(bx, by-1, bz)
+-- local blockName = convertBlockIdToBlockName(blockId)
 -- print(blockName)
 -- print(bx, by, bz)
 
