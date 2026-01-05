@@ -14,8 +14,7 @@ local WorldFunctions = loadstring(game:HttpGet("https://raw.githubusercontent.co
 -- Functions --
 local function getCoords(pos)
     if not pos then return 0, 0, 0 end
-    local x, y, z = WorldFunctions.WorldToBlock(pos.X, pos.Y, pos.Z)
-    return x, y, z
+    return WorldFunctions.WorldToBlock(pos.X, pos.Y, pos.Z)
 end
 
 local function getClosestMob(playerPos)
@@ -60,18 +59,25 @@ if not getgenv().mobKaHooked then
         local args = {...}
 
         if not checkcaller() and _G.mobKillaura and (method == "InvokeServer" or method == "invokeServer") and self.Name == "SendState" then
-            local data = args[1]
-            if type(data) == "table" and data.pos then
+            local originalData = args[1]
+            
+            if type(originalData) == "table" and originalData.pos then
                 local currentTime = tick()
+                
                 if (currentTime - lastHit) >= (_G.kaDelay or 0) then
-                    local target = getClosestMob(data.pos)
+                    local target = getClosestMob(originalData.pos)
+                    
                     if target then
-                        data.targetEntity = target
-                        data.iattack = true
+                        local newData = {}
+                        for k, v in pairs(originalData) do newData[k] = v end
+                        
+                        newData.targetEntity = target
+                        newData.iattack = true
+                        
                         lastHit = currentTime
+                        return self.InvokeServer(self, newData)
                     end
                 end
-                return oldNamecall(self, unpack(args))
             end
         end
         return oldNamecall(self, ...)
