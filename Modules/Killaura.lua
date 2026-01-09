@@ -37,6 +37,11 @@ if not getgenv().kaHooked then
         if not checkcaller() and _G.kaConn and (method == "InvokeServer" or method == "invokeServer") and self.Name == "SendState" then
             local data = args[1]
             if type(data) == "table" then
+                
+                if (data.ibreak or data.ibroken or data.iplace or data.iinteract or data.ieat or data.ieaten or data.iuse or data.icraft) then
+                    return oldNamecall(self, ...)
+                end
+
                 local currentTime = tick()
                 local delayTime = _G.kaDelay or 0
                 
