@@ -13,7 +13,7 @@ Designed for efficiency, stealth, and dominance.
 ---
 
 ## 📜 Description
-**Spectra Hub** is a script utility designed to hook directly into the game's logic.  
+**Spectra Client** is a script utility designed to hook directly into the game's logic.  
 Unlike standard cheats, this project focuses on **low-level network manipulation** and efficiency.
 
 ---
