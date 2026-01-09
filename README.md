@@ -13,7 +13,7 @@ Designed for efficiency, stealth, and dominance.
 ---
 
 ## 📜 Description
-**Spectra Client** is a script utility designed to hook directly into the game's logic.  
+**Spectra Hub** is a script utility designed to hook directly into the game's logic.  
 Unlike standard cheats, this project focuses on **low-level network manipulation** and efficiency.
 
 ---
@@ -21,14 +21,56 @@ Unlike standard cheats, this project focuses on **low-level network manipulation
 ## ✨ Features
 
 ### ⚔️ Combat
-- **Kill Aura** — Automatically attacks nearby players (≤ 16 studs)
-- **Mob Kill Aura** — Automatically attacks nearby mobs (≤ 16 studs)
-- **Kill Aura Delay** — Global configurable delay for all killauras
+- **Kill Aura** - Automatically attacks nearby players (≤ 16 studs)
+- **Mob Kill Aura** - Automatically attacks nearby mobs (≤ 16 studs)
+- **Kill Aura Delay** - Global configurable delay for all killauras
 
 ### 🔍 Visuals
-- **X-Ray** — Highlights all ores
+- **X-Ray** - Highlights all ores
+- **No Black Cover** - Removes annoying black cover
 
 ### 🕊 Movement & Utility
-- **(SOON) Position Logger** — UI to log player positions from unloaded chunks
+- **Fly** - Fly high into the sky with adjustable speed
+- **Noclip** - Phase through walls with adjustable speed
+- **No Fall** - Anti Fall Damage
+- **World Functions** - Simple world manipulation utilities
+
+### 🛡️ Protection
+- **Anti-Kick** - Partially prevents server-side kick attempts
+- **Safe Load** - Waits for Chunks & Entities to load before initialization
+- **Duplicate Prevention** - Prevents multiple instances from running
+
+### ⚙️ Interface
+- **Fluent UI** - Modern, customizable interface
+- **Theme Support** - Multiple color themes
+- **Transparency Toggle** - Adjustable UI transparency
+- **Minimize Hotkey** - Left Shift to minimize
 
 > More features currently in development…
+
+---
+
+## 🚀 Installation
+
+1. Open your exploit executor
+2. Paste the loadstring above
+3. Execute
+4. Wait for Chunks/Entities to load (if in main menu, click Play)
+5. Enjoy!
+
+---
+
+## ⚠️ Disclaimer
+
+This script is for **educational purposes only**.  
+Using exploits in Roblox violates their Terms of Service and may result in account termination.  
+Use at your own risk.
+
+---
+
+## 🙏 Credits
+
+- **Developer**: 1DeRBy1
+- **Special Thanks**: PurpleApple for some functions
+- **UI Library**: Fluent by dawid-scripts
+- **Notification Library**: AkaliNotif by Kinlei
