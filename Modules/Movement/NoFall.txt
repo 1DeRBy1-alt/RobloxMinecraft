@@ -5,7 +5,7 @@ if not _G.noFallHooked then
 
     local old
     old = hookfunction(m, function(state, env, dt)
-        if _G.noFall and state then
+        if _G.noFall and state and state.FallDistance then
             state.FallDistance = nil
         end
         return old(state, env, dt)
