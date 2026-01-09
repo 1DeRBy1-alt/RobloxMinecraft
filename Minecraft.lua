@@ -82,15 +82,27 @@ Tabs.Credits:AddParagraph({
     Content = "Made by 1DeRBy1\nCredits to PurpleApple for some functions\nUI Library: Fluent"
 })
 
+
+-- Modules --
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/XRay.lua"))() -- XRay
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Killaura.lua"))() -- Killaura
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/Mob%20Killaura.lua"))() -- Mob Killaura
+
 local kaToggle = Tabs.cs:AddToggle("kaToggle", {
     Title = "Kill Aura",
     Description = "Automatically attacks nearby players",
     Default = false,
     Callback = function(t)
         _G.kaConn = t
-        if _G.kaConn then
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Killaura.lua"))()
-        end
+    end
+})
+
+local mobKaToggle = Tabs.cs:AddToggle("mobKaToggle", {
+    Title = "Mob Killaura",
+    Description = "Automatically attacks nearby mobs",
+    Default = false,
+    Callback = function(t)
+        _G.mobKillaura = t
     end
 })
 
@@ -100,9 +112,6 @@ local xrayToggle = Tabs.vs:AddToggle("xrayToggle", {
     Default = false,
     Callback = function(t)
         _G.xrayConn = t
-        if _G.xrayConn then
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/XRay.lua"))()
-        end
     end
 })
 
