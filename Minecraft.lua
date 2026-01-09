@@ -2,7 +2,7 @@ local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Ki
 
 if getgenv().Loaded then 
     AkaliNotif.Notify({
-        Title = "Spectra Hub",
+        Title = "Spectra Client",
         Description = "Script is already loaded!",
         Duration = 5
     })
@@ -41,7 +41,7 @@ local env = getsenv(ClientScript)
 ]]
 
 local Window = Fluent:CreateWindow({
-    Title = "Minecraft (Spectra Hub) v1.0",
+    Title = "Minecraft (Spectra Client) v1.1",
     SubTitle = "by 1DeRBy1",
     TabWidth = 160,
     Size = UDim2.fromOffset(560, 340),
