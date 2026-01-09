@@ -25,7 +25,7 @@ Unlike standard cheats, this project focuses on **low-level network manipulation
 - **Mob Kill Aura** — Automatically attacks nearby mobs (≤ 16 studs)
 - **Kill Aura Delay** — Global configurable delay for all killauras
 
-### 🔍 Visualization
+### 🔍 Visuals
 - **X-Ray** — Highlights all ores
 
 ### 🕊 Movement & Utility
