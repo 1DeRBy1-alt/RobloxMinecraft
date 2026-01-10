@@ -9,19 +9,20 @@ if getgenv().Loaded then
     return 
 end
 
+-- Anti Kick --
+-- loadstring(game:HttpGet("https://raw.githubusercontent.com/Pixeluted/adoniscries/refs/heads/main/Source.lua",true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/anti_kick.lua", true))()
+
 repeat task.wait(1) until workspace:FindFirstChild("Chunks") and workspace:FindFirstChild("Entities")
 
-getgenv().Loaded = true
-_G.kaDelay = 0
-_G.xrayConn = false
-_G.kaConn = false
-_G.BlackCover = false
+-- Globals --
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/globals.lua", true))()
 
 -- Modules --
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/XRay.lua"))() -- XRay
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Killaura.lua"))() -- Killaura
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/Mob%20Killaura.lua"))() -- Mob Killaura
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Movement/init.lua"))() -- Movement Hook
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/XRay.lua", true))() -- XRay
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Killaura.lua", true))() -- Killaura
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/Mob%20Killaura.lua", true))() -- Mob Killaura
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Movement/init.lua", true))() -- Movement Hook
 
 -- UI Library --
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
@@ -59,38 +60,6 @@ local Tabs = {
 }
 
 local Options = Fluent.Options
-
--- Anti-Kick --
--- loadstring(game:HttpGet("https://raw.githubusercontent.com/Pixeluted/adoniscries/refs/heads/main/Source.lua",true))()
-
-for _, v in next, getreg() do
-    if type(v) ~= "thread" then continue end
-    local source: string? = debug.info(v, 1, "s")
-    if source and (source:find(".Core.Anti", nil, true) or source:find(".Plugins.Anti_Cheat", nil, true)) then
-        task.cancel(v)
-    end
-end
-for _, v in next, filtergc("table", {Keys = {"RLocked", "Detected"}}, true) or {} do
-    if type(v) ~= "function" or isfunctionhooked(v) then continue end
-    hookfunction(v, newcclosure(function() coroutine.yield() end))
-end
-task.wait()
-
-local oldhmmi
-local oldhmmnc
-oldhmmi = hookmetamethod(game, "__index", function(self, method)
-    if self == player and method:lower() == "kick" then
-        return error("Expected ':' not '.' calling member function Kick", 2)
-    end
-    return oldhmmi(self, method)
-end)
-
-oldhmmnc = hookmetamethod(game, "__namecall", function(self, ...)
-    if self == player and getnamecallmethod():lower() == "kick" then
-        return
-    end
-    return oldhmmnc(self, ...)
-end)
 
 -- World Functions --
 local WorldFunctions = loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/WorldTestFunctions.lua"))()
