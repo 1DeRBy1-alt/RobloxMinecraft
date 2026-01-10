@@ -6,6 +6,7 @@ getgenv().xrayLoaded = true
 
 -- Services --
 local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
 
 -- Variables --
 local player = Players.LocalPlayer
@@ -56,11 +57,11 @@ local function scanLayer(chunk, yLevel)
 
     for x = cx, cx + 15 do
         for z = cz, cz + 15 do
-            local key = ("%d,%d,%d"):format(x, yLevel, z)
+            local key = x + (yLevel * 1000000) + (z * 1000)
             if visuals[key] then continue end
 
             local blockID = WorldFunctions.getBlockID(x, yLevel, z)
-            if blockID then
+            if blockID and blockID ~= 0 then
                 local name = WorldFunctions.convertBlockIdToBlockName(blockID)
                 if name then
                     local lowerName = string.lower(name)
@@ -85,7 +86,7 @@ local function scanLayer(chunk, yLevel)
                         part.Parent = xrayfolder
 
                         makeVisual(color, part)
-                        visuals[key] = {Part = part, Chunk = chunk.Name}
+                        visuals[key] = {Part = part, Chunk = chunk.Name, X = x, Y = yLevel, Z = z}
                     end
                 end
             end
@@ -100,8 +101,8 @@ local function scanFullChunk(chunk)
     for y = 1, 63 do
         scanLayer(chunk, y)
         
-        if y % 10 == 0 then 
-            task.wait() 
+        if y % 8 == 0 then 
+            RunService.Heartbeat:Wait() 
         end
         
         if not _G.xrayConn then break end
@@ -125,7 +126,7 @@ ChunksFolder.ChildRemoved:Connect(function(chunk)
 end)
 
 task.spawn(function()
-    while task.wait(0.69) do
+    while task.wait(0.7) do
         if _G.xrayConn then
             for _, chunk in ipairs(ChunksFolder:GetChildren()) do
                 if not chunksScanned[chunk.Name] and not scanning[chunk.Name] then
@@ -156,18 +157,16 @@ task.spawn(function()
         hrp = char and char:FindFirstChild("HumanoidRootPart")
         local currentTime = tick()
         
-        if hrp and currentTime - lastCleanup > 0.5 then
+        if hrp and currentTime - lastCleanup > 0.7 then
             local px, py, pz = hrp.Position.X / 3, hrp.Position.Y / 3, hrp.Position.Z / 3
             
             for key, data in pairs(visuals) do
-                local c = string.split(key, ",")
-                local bx, by, bz = tonumber(c[1]), tonumber(c[2]), tonumber(c[3])
-                
+                local bx, by, bz = data.X, data.Y, data.Z
                 local dist = math.abs(bx - px) + math.abs(by - py) + math.abs(bz - pz)
+                
                 if dist > 50 then continue end
                 
                 local currentID = WorldFunctions.getBlockID(bx, by, bz)
-                
                 if currentID then
                     local name = WorldFunctions.convertBlockIdToBlockName(currentID)
                     if name then
@@ -194,7 +193,6 @@ task.spawn(function()
                     visuals[key] = nil
                 end
             end
-            
             lastCleanup = currentTime
         end
     end
