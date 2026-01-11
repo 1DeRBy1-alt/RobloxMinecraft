@@ -1,7 +1,9 @@
  -- Toggles --
 _G.kaConn = false
 _G.mobKillaura = false
+_G.hitboxConn = false
 _G.xrayConn = false
 _G.BlackCover = false
  -- Configuration --
-_G.kaDelay = 0.01
+_G.kaDelay = 0.02
+_G.hitboxSize = 9
