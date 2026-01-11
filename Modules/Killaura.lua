@@ -15,8 +15,17 @@ local function getClosestPlayer()
     
     if not myHrp then return nil end
 
+    local myTeam = player.Team
+
     for _, p in ipairs(Players:GetPlayers()) do
         if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+            if _G.kaTeamCheck then
+                local pTeam = p.Team
+                if myTeam and pTeam and myTeam.TeamColor == pTeam.TeamColor then
+                    continue
+                end
+            end
+            
             local dist = (myHrp.Position - p.Character.HumanoidRootPart.Position).Magnitude
             if dist <= MAX_RANGE and dist < shortest then
                 shortest = dist
@@ -38,12 +47,12 @@ if not getgenv().kaHooked then
             local data = args[1]
             if type(data) == "table" then
                 
-                if (data.ibreak or data.ibroken or data.iplace or data.iinteract or data.ieat or data.ieaten or data.iuse or data.icraft) then
+                if (data.ibroken or data.ieaten or data.iuse or data.icraft) then
                     return oldNamecall(self, ...)
                 end
 
                 local currentTime = tick()
-                local delayTime = _G.kaDelay or 0
+                local delayTime = _G.kaDelay or 0.01
                 
                 if (currentTime - lastHit) >= delayTime then
                     local closest = getClosestPlayer()
