@@ -7,3 +7,4 @@ _G.BlackCover = false
  -- Configuration --
 _G.kaDelay = 0.02
 _G.hitboxSize = 9
+_G.kaTeamCheck = true
