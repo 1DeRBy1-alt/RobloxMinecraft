@@ -23,6 +23,7 @@ Unlike standard cheats, this project focuses on **low-level network manipulation
 ### ⚔️ Combat
 - **Kill Aura** - Automatically attacks nearby players (≤ 16 studs)
 - **Mob Kill Aura** - Automatically attacks nearby mobs (≤ 16 studs)
+- **Hitbox Expander** - Expands all player's hitboxes. Experimental feature.
 - **Kill Aura Delay** - Global configurable delay for all killauras
 
 ### 🔍 Visuals
