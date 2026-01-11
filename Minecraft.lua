@@ -22,6 +22,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMin
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/XRay.lua", true))() -- XRay
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Killaura.lua", true))() -- Killaura
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/Mob%20Killaura.lua", true))() -- Mob Killaura
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/hitbox_expander.lua", true))() -- Hitbox Expander
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Movement/init.lua", true))() -- Movement Hook
 
 -- UI Library --
@@ -42,13 +43,13 @@ local env = getsenv(ClientScript)
 ]]
 
 local Window = Fluent:CreateWindow({
-    Title = "Minecraft (Spectra Client) v1.1",
+    Title = "Minecraft (Spectra Client) v1.1.1",
     SubTitle = "by 1DeRBy1",
     TabWidth = 160,
     Size = UDim2.fromOffset(560, 340),
     Acrylic = false,
     Theme = "Darker",
-    MinimizeKey = Enum.KeyCode.LeftShift
+    MinimizeKey = Enum.KeyCode.LeftAlt
 })
 
 local Tabs = {
@@ -83,6 +84,13 @@ local mobKaToggle = Tabs.cs:AddToggle("mobKaToggle", {
     Description = "Automatically attacks nearby mobs",
     Default = false,
     Callback = function(t) _G.mobKillaura = t end
+})
+
+local hbToggle = Tabs.cs:AddToggle("hbToggle", {
+    Title = "Hitbox Expander",
+    Description = "Automatically expands all player hitboxes (W.I.P)",
+    Default = false,
+    Callback = function(t) _G.hitboxConn = t end
 })
 
 -- Player Tab --
@@ -132,7 +140,7 @@ local blackCoverToggle = Tabs.vs:AddToggle("blackCoverToggle", {
 local kadelay = Tabs.st:AddInput("kadelay", {
     Title = "Kill Aura Delay",
     Description = "Seconds between each hit",
-    Default = "0.01",
+    Default = "0.02",
     Placeholder = "Enter a number",
     Numeric = true,
     Finished = false,
@@ -144,6 +152,18 @@ local kadelay = Tabs.st:AddInput("kadelay", {
         else
             Fluent:Notify({Title = "Error", Content = "Please enter a valid number", Duration = 3})
         end
+    end
+})
+
+local hbSize = Tabs.st:AddSlider("hbSize", {
+    Title = "Hitbox Size",
+    Description = "Adjust the size of the expanded hitboxes",
+    Default = 9,
+    Min = 1,
+    Max = 20,
+    Rounding = 1,
+    Callback = function(hbs)
+        _G.hitboxSize = hbs
     end
 })
 
