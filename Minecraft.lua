@@ -1,5 +1,4 @@
 local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))()
-
 if getgenv().Loaded then 
     AkaliNotif.Notify({
         Title = "Spectra Client",
@@ -8,6 +7,7 @@ if getgenv().Loaded then
     })
     return 
 end
+getgenv().Loaded = true
 
 -- Anti Kick --
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/Pixeluted/adoniscries/refs/heads/main/Source.lua",true))()
@@ -164,6 +164,15 @@ local hbSize = Tabs.st:AddSlider("hbSize", {
     Rounding = 1,
     Callback = function(hbs)
         _G.hitboxSize = hbs
+    end
+})
+
+local teamToggle = Tabs.st:AddToggle("kaTeamCheckToggle", {
+    Title = "Team Check",
+    Description = "If enabled, Killaura/Hitboxes will ignore teammates",
+    Default = false,
+    Callback = function(t)
+        _G.kaTeamCheck = t
     end
 })
 
