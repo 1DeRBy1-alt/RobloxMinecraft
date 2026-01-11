@@ -2,6 +2,8 @@ if getgenv().hitboxLoaded then return end
 getgenv().hitboxLoaded = true
 
 local Entities = workspace:WaitForChild("Entities")
+local Players = game:GetService("Players")
+local localPlayer = Players.LocalPlayer
 local originalStats = {}
 
 task.spawn(function()
@@ -24,6 +26,13 @@ task.spawn(function()
         end
 
         for _, ent in ipairs(Entities:GetChildren()) do
+            if _G.kaTeamCheck then
+                local targetPlayer = Players:FindFirstChild(ent.Name)
+                if targetPlayer and targetPlayer ~= localPlayer and targetPlayer.Team == localPlayer.Team then
+                    continue 
+                end
+            end
+
             local hb = (ent.Name == "playerhitbox" and ent) or ent:FindFirstChild("playerhitbox")
             
             if hb and hb:IsA("BasePart") then
