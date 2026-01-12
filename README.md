@@ -7,7 +7,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMin
 A high‑performance Luau-based cheat suite for the Roblox **MC Alpha 1.2.6** project.  
 Designed for efficiency, stealth, and dominance.
 
-[![Status](https://img.shields.io/badge/Status-Partially%20Active-yellow)](https://github.com/)
+[![Status](https://img.shields.io/badge/Status-Active-green)](https://github.com/)
 [![Language](https://img.shields.io/badge/Language-Luau-blue)](https://github.com/)
 
 ---
@@ -25,6 +25,7 @@ Unlike standard cheats, this project focuses on **low-level network manipulation
 - **Mob Kill Aura** - Automatically attacks nearby mobs (≤ 16 studs)
 - **Hitbox Expander** - Expands all player's hitboxes. Experimental feature.
 - **Kill Aura Delay** - Global configurable delay for all killauras
+- **Team Check** - Global toggle to prevent attacking teammates
 
 ### 🔍 Visuals
 - **X-Ray** - Highlights all ores
@@ -45,7 +46,7 @@ Unlike standard cheats, this project focuses on **low-level network manipulation
 - **Fluent UI** - Modern, customizable interface
 - **Theme Support** - Multiple color themes
 - **Transparency Toggle** - Adjustable UI transparency
-- **Minimize Hotkey** - Left Shift to minimize
+- **Minimize Hotkey** - Left Alt to minimize
 
 > More features currently in development…
 
