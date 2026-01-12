@@ -1,4 +1,7 @@
-local LocalEntity = require(game:GetService("ReplicatedStorage").LocalEntity)
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalEntity = require(ReplicatedStorage:WaitForChild("LocalEntity"))
+local StaticCollisionCheck = require(ReplicatedStorage:WaitForChild("StaticCollisionCheck"))
+
 local UIS = game:GetService("UserInputService")
 local Camera = workspace.CurrentCamera
 
@@ -22,8 +25,12 @@ old = hookfunction(LocalEntity, function(state, env, dt)
         return old(state, env, dt)
     end
 
-    local inFluid = state.inWater
-                    or state.inLava
+    local _, collisionInfo = StaticCollisionCheck(env, state, state.Size)
+    local inFluid = collisionInfo.inWater or collisionInfo.inLava
+
+    if inFluid then
+        state.FallDistance = nil
+    end
 
     local mv = Vector3.zero
     local cf = Camera.CFrame
