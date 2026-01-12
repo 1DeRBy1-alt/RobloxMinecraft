@@ -47,7 +47,7 @@ if not getgenv().kaHooked then
             local data = args[1]
             if type(data) == "table" then
                 
-                if (data.ibroken or data.ieaten or data.iuse or data.icraft) then
+                if (data.ibreak or data.ibroken or data.ieaten or data.iuse or data.iinteract or data.icraft) then
                     return oldNamecall(self, ...)
                 end
 
