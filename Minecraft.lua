@@ -95,7 +95,7 @@ local WorldFunctions = loadstring(game:HttpGet("https://raw.githubusercontent.co
 -- Credits Tab --
 Tabs.Credits:AddParagraph({
    Title = "Made by 1DeRBy1",
-   Content = "UI Library: Fluent\nv1.2.1\nOpen-Sourced\n\nCredits:\nPurpleApple: Mobile button and logo"
+   Content = "UI Library: Fluent\nv1.3\nOpen-Sourced\n\nCredits:\nPurpleApple: Mobile button and logo"
 })
 
 -- Combat Tab --
