@@ -122,11 +122,10 @@ local hbToggle = Tabs.cs:AddToggle("hbToggle", {
 
 -- Player Tab --
 if isMobile then
-    local flyToggle = Tabs.lp:AddToggle("mobileFlyToggle", {
+    Tabs.lp:AddButton({
         Title = "Mobile Fly",
         Description = "Allows you to fly around the map (Mobile)",
-        Default = false,
-        Callback = function(t)
+        Callback = function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/Movement/Mobile%20Fly.lua"))()
         end
     })
