@@ -22,7 +22,8 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMin
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/XRay.lua", true))() -- XRay
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Killaura.lua", true))() -- Killaura
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/Mob%20Killaura.lua", true))() -- Mob Killaura
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/hitbox_expander.lua", true))() -- Hitbox Expander
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/Scaffold.lua", true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/hitbox_expander.lua"))() -- Hitbox Expander
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Movement/init.lua", true))() -- Movement Hook
 
 -- UI Library --
@@ -43,7 +44,7 @@ local env = getsenv(ClientScript)
 ]]
 
 local Window = Fluent:CreateWindow({
-    Title = "Minecraft (Spectra Client) v1.1.1",
+    Title = "Minecraft (Spectra Client) v1.2",
     SubTitle = "by 1DeRBy1",
     TabWidth = 160,
     Size = UDim2.fromOffset(560, 340),
@@ -56,6 +57,7 @@ local Tabs = {
     Credits = Window:AddTab({ Title = "Credits", Icon = "info" }),
     cs = Window:AddTab({ Title = "Combat", Icon = "swords" }),
     lp = Window:AddTab({ Title = "Player", Icon = "user" }),
+	wr = Window:AddTab({ Title = "World", Icon = "globe" }),
 	vs = Window:AddTab({ Title = "Visuals", Icon = "eye" }),
     st = Window:AddTab({ Title = "Settings", Icon = "settings" }),
 }
@@ -136,6 +138,16 @@ local blackCoverToggle = Tabs.vs:AddToggle("blackCoverToggle", {
     end
 })
 
+-- World Tab --
+local scaftog = Tabs.wr:AddToggle("scaftog", {
+    Title = "Scaffold",
+    Description = "Automatically places blocks below feet",
+    Default = _G.scaffoldEnabled,
+    Callback = function(t)
+        _G.scaffoldEnabled = t
+    end
+})
+
 -- Settings Tab --
 local kadelay = Tabs.st:AddInput("kadelay", {
     Title = "Kill Aura Delay",
@@ -170,7 +182,7 @@ local hbSize = Tabs.st:AddSlider("hbSize", {
 local teamToggle = Tabs.st:AddToggle("kaTeamCheckToggle", {
     Title = "Team Check",
     Description = "If enabled, Killaura/Hitboxes will ignore teammates",
-    Default = false,
+    Default = _G.kaTeamCheck ~= nil and _G.kaTeamCheck or false,
     Callback = function(t)
         _G.kaTeamCheck = t
     end
