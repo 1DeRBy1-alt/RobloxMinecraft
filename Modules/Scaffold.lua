@@ -37,7 +37,7 @@ if handFunc then
         local method = getnamecallmethod()
         local args = {...}
         
-        if self == handFunc and (method == "Call" or method == "Invoke") then
+        if self == handFunc then
             for _, arg in args do
                 if typeof(arg) == "table" and arg.id and type(arg.id) == "number" then
                     currentHeldItem = arg
