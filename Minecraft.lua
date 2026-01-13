@@ -15,6 +15,12 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMin
 
 repeat task.wait(1) until workspace:FindFirstChild("Chunks") and workspace:FindFirstChild("Entities")
 
+AkaliNotif.Notify({
+    Title = "Spectra Client",
+    Description = "Script is loading...",
+    Duration = 3
+})
+
 -- Globals --
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/globals.lua", true))()
 
@@ -32,9 +38,11 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 
 -- Services --
 local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
 
 -- Variables --
 local player = Players.LocalPlayer
+local isPC, isMobile
 --[[
 local Character = player.Character or player.CharacterAdded:Wait()
 local hrp = Character:WaitForChild("HumanoidRootPart")
@@ -43,8 +51,25 @@ local ClientScript = player.PlayerScripts:WaitForChild("ClientScript")
 local env = getsenv(ClientScript)
 ]]
 
+if UIS.KeyboardEnabled and UIS.MouseEnabled then
+    isPC = true
+    AkaliNotif.Notify({
+        Title = "PC Detected!",
+        Description = "PC Detected, Movement features should work...",
+        Duration = 3
+    })
+elseif UIS.TouchEnabled then
+    isMobile = true
+    AkaliNotif.Notify({
+        Title = "Mobile Device Detected!",
+        Description = "Mobile Device Detected, executing button...",
+        Duration = 3
+    })
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/screengui/mods/refs/heads/main/btn.lua", true))()
+end
+
 local Window = Fluent:CreateWindow({
-    Title = "Minecraft (Spectra Client) v1.2",
+    Title = "Minecraft (Spectra Client) v1.3",
     SubTitle = "by 1DeRBy1",
     TabWidth = 160,
     Size = UDim2.fromOffset(560, 340),
@@ -69,8 +94,8 @@ local WorldFunctions = loadstring(game:HttpGet("https://raw.githubusercontent.co
 
 -- Credits Tab --
 Tabs.Credits:AddParagraph({
-    Title = "Credits",
-    Content = "Made by 1DeRBy1\nCredits: PurpleApple for some functions\nUI Library: Fluent"
+   Title = "Made by 1DeRBy1",
+   Content = "UI Library: Fluent\nv1.2.1\nOpen-Sourced\n\nCredits:\nPurpleApple: Mobile button and logo"
 })
 
 -- Combat Tab --
@@ -96,6 +121,17 @@ local hbToggle = Tabs.cs:AddToggle("hbToggle", {
 })
 
 -- Player Tab --
+if isMobile then
+    local flyToggle = Tabs.lp:AddToggle("mobileFlyToggle", {
+        Title = "Mobile Fly",
+        Description = "Allows you to fly around the map (Mobile)",
+        Default = false,
+        Callback = function(t)
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/Movement/Mobile%20Fly.lua"))()
+        end
+    })
+end
+
 local flyToggle = Tabs.lp:AddToggle("flyToggle", {
     Title = "Fly",
     Description = "Allows you to fly around the map",
