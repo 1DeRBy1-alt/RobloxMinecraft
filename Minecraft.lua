@@ -20,9 +20,9 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMin
 
 -- Modules --
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/XRay.lua", true))() -- XRay
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/Scaffold.lua", true))() -- Scaffold
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Killaura.lua", true))() -- Killaura
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/Mob%20Killaura.lua", true))() -- Mob Killaura
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/Scaffold.lua", true))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/hitbox_expander.lua"))() -- Hitbox Expander
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/main/Modules/Movement/init.lua", true))() -- Movement Hook
 
