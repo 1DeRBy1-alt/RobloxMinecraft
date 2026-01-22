@@ -1,5 +1,5 @@
 local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))()
-if getgenv().Loaded then 
+if getgenv().spectraLoaded then 
     AkaliNotif.Notify({
         Title = "Spectra Client",
         Description = "Script is already loaded!",
@@ -7,13 +7,13 @@ if getgenv().Loaded then
     })
     return 
 end
-getgenv().Loaded = true
+getgenv().spectraLoaded = true
 
 -- Anti Kick --
--- loadstring(game:HttpGet("https://raw.githubusercontent.com/Pixeluted/adoniscries/refs/heads/main/Source.lua",true))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1DeRBy1-alt/RobloxMinecraft/refs/heads/main/Modules/anti_kick.lua", true))()
+-- loadstring(game:HttpGet("https://raw.githubusercontent.com/Pixeluted/adoniscries/refs/heads/main/Source.lua",true))()
 
-repeat task.wait(1) until workspace:FindFirstChild("Chunks") and workspace:FindFirstChild("Entities")
+repeat task.wait(0.5) until workspace:FindFirstChild("Chunks") and workspace:FindFirstChild("Entities")
 
 AkaliNotif.Notify({
     Title = "Spectra Client",
